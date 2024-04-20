@@ -1,0 +1,59 @@
+name: Deploy act-react
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY_URL: docker.io/guoyecn
+  SERVICE_NAME: act-react-app
+  SERVICE_TAG: latest
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+  	  contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Generate docker image name
+        id: image_tag
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push orchestration service
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          tags: |
+            ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:${{ steps.image_tag.outputs.sha_short }}
+            ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:latest
+          push: true
+
+  deploy:
+    needs: [ build ]
+    runs-on: self-hosted
+
+    steps:
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Setup Cluster Authentication
+      	run: cat ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
+      
+      - name: Deploying ${{ env.SERVICE_NAME }}
+        run: kubectl --kubeconfig=/tmp/kubeconfig apply -f deployment.yaml
+
+      - name: Deploying service
+        run: kubectl --kubeconfig=/tmp/kubeconfig apply -f service.yaml

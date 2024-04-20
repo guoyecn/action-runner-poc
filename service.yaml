@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  #The name of the Kubernetes Service to be created 
+  #in the Kubernetes cluster
+  name: act-react 
+spec:
+  selector:
+    app: act-react-app 
+  type: LoadBalancer #Type of the Kubernetes Service
+  ports:
+  - protocol: TCP
+    port: 3100 #Service port
+    targetPort: 3100 #The port for the React.js application container
