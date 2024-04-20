@@ -46,12 +46,11 @@ jobs:
     steps:
       - name: Install Kubectl
         uses: azure/setup-kubectl@v3
-
-      - name: Setup Kubenetes config file
-       	run: cat ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
+      
+      - name: Setuping Cluster Authentication
+        run:  echo ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
       
       - name: Deploying ${{ env.SERVICE_NAME }}
-        run: kubectl --kubeconfig=/tmp/kubeconfig apply -f deployment.yaml
-
-      - name: Deploying service
-        run: kubectl --kubeconfig=/tmp/kubeconfig apply -f service.yaml
+        run: |
+          kubectl --kubeconfig=/tmp/kubeconfig apply -f deployment.yaml
+          kubectl --kubeconfig=/tmp/kubeconfig apply -f service.yaml
