@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  REGISTRY_URL: docker.io/dockerhub-username
+  REGISTRY_URL: docker.io/guoyecn
   SERVICE_NAME: act-react-app
   SERVICE_TAG: latest
 
