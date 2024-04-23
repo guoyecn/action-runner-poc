@@ -21,5 +21,5 @@ spec:
         #The Docker image for building the React.js application container
         image: guoyecn/act-react-app:latest 
         ports:
-        - containerPort: 3100 #The port for the React.js application container
+        - containerPort: 5173 #The port for the React.js application container
 

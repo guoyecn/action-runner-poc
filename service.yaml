@@ -10,5 +10,5 @@ spec:
   type: LoadBalancer #Type of the Kubernetes Service
   ports:
   - protocol: TCP
-    port: 3100 #Service port
-    targetPort: 3100 #The port for the React.js application container
+    port: 5173 #Service port
+    targetPort: 5173 #The port for the React.js application container

@@ -12,6 +12,6 @@ COPY package-lock.json .
 RUN npm i
 COPY . .
 #Expose the React.js application container on port 3000
-EXPOSE 3100
+EXPOSE 5173
 #The command to start the React.js application container
 CMD ["npm", "run", "dev"]
