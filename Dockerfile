@@ -7,11 +7,10 @@ WORKDIR /app
 #Copy the React.js application dependencies from the 
 #package.json to the react-app working directory.
 COPY package.json .
-COPY package-lock.json .
 #install all the React.js application dependencies
 RUN npm i
 COPY . .
-#Expose the React.js application container on port 3000
+RUN npm run build
 EXPOSE 5173
 #The command to start the React.js application container
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "preview"]
