@@ -35,8 +35,7 @@ jobs:
         with:
           context: .
           tags: |
-            ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:${{ steps.image_tag.
-outputs.sha_short }}
+            ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:${{ steps.image_tag.outputs.sha_short }}
             ${{ env.REGISTRY_URL }}/${{ env.SERVICE_NAME }}:latest
           push: true
 
